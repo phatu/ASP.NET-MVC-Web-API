@@ -1,0 +1,40 @@
+﻿@model MVC.Models.PersonModel
+
+@{
+    ViewBag.Title = "AddOrEditPerson";
+}
+<br/>
+<div class="form-control-static">
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Surname)
+            @Html.EditorFor(model => model.Surname)
+            @Html.ValidationMessageFor(model => model.Surname)
+        </div>
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmailAddress)
+            @Html.EditorFor(model => model.EmailAddress)
+            @Html.ValidationMessageFor(model => model.EmailAddress)
+        </div>
+        <br />
+        <div class="form-group">
+            <input type="submit" value="Submit" class="btn" />
+        </div>
+    }
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}

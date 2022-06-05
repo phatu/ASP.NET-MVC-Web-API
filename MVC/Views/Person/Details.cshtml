@@ -1,0 +1,77 @@
+﻿@model IEnumerable<MVC.Models.PersonModel>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<p>
+    <a href='@Url.Action("AddOrEditPerson", "Person")' class="btn btn-default"><i class="fa fa-plus-circle" aria-hidden="true"></i>Add a person</a>
+
+
+</p>
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </th>
+        <th>Actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAddress)
+            </td>
+            <td>
+                <a href="@Url.Action("AddOrEditPerson", "Person", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil"></i>Edit</a>
+                <a onclick="Delete(@item.Id)"class="btn btn-default"><i class="fa fa-trash"></i>Delete</a>              
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            var successMessage = '@TempData["SuccessMessage"]'
+            if (successMessage != '')
+                alertify.success(successMessage)
+        });
+
+
+
+        Delete = (Id) => {
+            alertify.confirm("Delete", "Are you sure you want to delete this person?",
+                function (e) {
+                    if (e) {
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("DeletePerson", "Person")',
+                            data: JSON.stringify({ Id: Id }),
+                            dataType: "json",
+                            contentType: 'application/json; charset=utf-8',                            
+                        });
+                    };
+                }, null);
+        }
+
+    </script>
+}
+
